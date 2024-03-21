@@ -1,40 +1,50 @@
-package ...
+package id.ac.pnm.ti.utsmobilesatu
 
 fun main() {
     // Inisialisasi mutableList dan tambah data List
-    val clubs = ...
-    clubs.add(...)
-    dst...
+    val clubs = mutableListOf(Club("Liverpool", 19, 8, 9, 6, 3))
+    clubs.add(Club("Manchester United", 20, 12, 6, 3, 1))
+    clubs.add(Club("Liverpool", 6, 6, 5, 2, 2))
+    clubs.add(Club("Manchester City", 8, 8, 8, 0, 0))
+    clubs.add(Club("Arsenal", 13, 14, 2, 0, 0))
+
 
     // Passing a named function ::sortByNumberTrophyTotal
-    val sortedClubs = ...
+    val sortedClubs = filterAndSort(clubs, ::sortByNumberTrophyTotal)
     // Hasil sorting total trofi
-    println("Urutan klub berdasarkan jumlah total trofi: ")
-    for (club in ...) {
-        ...
+    println("=====================================================")
+    println("     Urutan klub berdasarkan jumlah total trofi:     ")
+    println("=====================================================")
+    for (club in sortedClubs) {
+        println("Jumlah trofi ${club.name} : ${club.totalTrophy} ")
     }
 
     // Passing a named function ::filterByEuropeanTrophy
-    val filteredClubs = ...
+    val filteredClubs = filterAndSort(clubs, ::filterByEuropeanTrophy)
     // Hasil sorting total trofi
-    println("Klub yang belum pernah memenangkan UCL dan UEL:")
-    for (club in ...) {
-        ...
+    println("=====================================================")
+    println("   Klub yang belum pernah memenangkan UCL dan UEL:   ")
+    println("=====================================================")
+    for (club in filteredClubs) {
+        println(club.name)
     }
 
     // Panggil extension function Club recap
-    println(...)
+    println("=====================================================")
+    println("          Recap hasil perolehan tropi Club           ")
+    println("=====================================================")
+    println(clubs[0].recap())
 }
 
 // High order function filter and sort
 fun filterAndSort(clubs: List<Club>, options: (List<Club>) -> List<Club>): List<Club> {
-    return ...
+    return options(clubs)
 }
 
 // Fungsi sorting
 fun sortByNumberTrophyTotal(clubs: List<Club>): List<Club> {
     val sortedClubs = clubs.sortedByDescending {
-        ...
+        it.totalTrophy
     }
     return sortedClubs
 
@@ -43,7 +53,7 @@ fun sortByNumberTrophyTotal(clubs: List<Club>): List<Club> {
 // Fungsi filter
 fun filterByEuropeanTrophy(clubs: List<Club>): List<Club> {
     val filteredClubs = clubs.filter {
-        ...
+        it.ucl == 0 && it.uel == 0
     }
     return filteredClubs
 }
